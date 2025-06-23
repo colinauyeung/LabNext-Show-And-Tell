@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fixed Viewport Page</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background-color: #111;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #viewport {
+      width: 1920px;
+      height: 1080px;
+      background-color: #fff;
+      box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+      position: relative;
+    }
+
+    #fullscreenBtn {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      padding: 10px 10px;
+      font-size: 14px;
+      cursor: pointer;
+      background-color: rgba(0, 0, 0, 0.2);
+      z-index: 10;
+    }
+
+    /* Example content styling */
+    .content {
+      padding: 20px;
+      font-family: sans-serif;
+    }
+
+    .image-box {
+      width: 70%;
+      height: 100%;
+      background-color: #000;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .image-box img {
+      height: 100%;
+      width: auto;
+      object-fit: contain;
+      display: block;
+    }
+
+    #gradient-box {
+        position:absolute;
+        left:60%;
+        top:0px;
+      width: 10%;
+      height: 100%;
+      background: linear-gradient(to right, transparent 0%, white 100%);
+    }
+
+    .main {
+      position: absolute;
+      left: 58%;
+      top: -9%;
+      width: 1200px;
+      display:flex;
+      --s: 250px;  /* size  */
+      --m: 4px;    /* margin */
+      --f: calc(1.732 * var(--s) + 4 * var(--m)  - 1px);
+    }
+
+    .container {
+      font-size: 0; /*disable white space between inline block element */
+    }
+
+
+
+
+    .container div {
+      width: var(--s);
+      margin: var(--m);
+      height: calc(var(--s)*1.1547); 
+      display: inline-block;
+      font-size:initial;
+      clip-path: polygon(0% 25%, 0% 75%, 50% 100%, 100% 75%, 100% 25%, 50% 0%);
+      background: rgba(255, 106, 0, 0.8);
+      margin-bottom: calc(var(--m) - var(--s)*0.2885); 
+    }
+    /* .container div:nth-child(odd) {
+      background:green;
+    } */
+
+    .container .badgehex {
+      /* background-image: url('3dhex.png'); */
+      background-color: rgba(0, 0, 0, 0);
+      background-size: cover;
+      background-origin: content-box;
+    } 
+
+    .container .strokehex {
+      background-image: url('BaseImages/StrokeHexs/PolygonOrange.png');
+      background-color: rgba(0, 0, 0, 0);
+      background-size: 100% 100%;
+      background-origin: content-box;
+    }
+
+    .container .invisiblehex {
+      background-color: rgba(0, 0, 0, 0);
+    }
+    
+    
+
+    .container::before {
+      content: "";
+      width: calc(var(--s)/2 + var(--m));
+      float: left;
+      height: 120%;
+      shape-outside: repeating-linear-gradient(     
+                      #0000 0 calc(var(--f) - 3px),      
+                      #000  0 var(--f));
+    }
+
+
+    .titletext {
+      font-family: monospace, 'Courier New', Courier;
+      font-weight: bold;
+      color: white;
+      -webkit-text-stroke: 3px black;
+    }
+
+    #TitleBox {
+      font-size: 96px;
+      position: absolute;
+      bottom: 5%;
+      right: 2%;
+    }
+
+    #AuthorBox {
+      font-size: 69px;
+      position: absolute;
+      bottom: 13%;
+      right: 2%;
+    }
+
+    #hidebox{
+      position: absolute;
+      right: 0px;
+      top: 0px;
+      height: 100%;
+      width: 100%;
+      z-index: 5;
+      background-color: black;
+      opacity: 1;
+      transition: opacity 0.2s; 
+    }
+
+    #hidebox.fade{
+      opacity: 0;
+    }
+
+    @keyframes fadeInOut {
+      0% {
+        opacity: 0;
+      }
+      50% {
+        opacity: 1;
+      }
+      100% {
+        opacity: 0;
+      }
+    }   
+
+  </style>
+</head>
+<body>
+  <div id="viewport">
+
+    <div id="hidebox" class="fade"></div>
+    <div id="gradient-box"></div>
+    <div class="main">
+      <div class="container">
+        <div class="colorhex color2"></div>
+        <div class="strokehex strokehex2"></div>
+        <div class="colorhex color4"></div>
+        <div class="invisiblehex"></div>
+        <div id="badgehex2" class="badgehex"></div>
+        <div class="invisiblehex"></div>
+        <div class="strokehex strokehex4" ></div>
+        <div class="colorhex color4" ></div>
+        <div class="strokehex strokehex1" ></div>
+        <div id="badgehex1" class="badgehex"></div>
+        <div id="badgehex4" class="badgehex"></div>
+        <div class="invisiblehex"></div>
+        <div id="badgehex3" class="badgehex"></div>
+        <div class="strokehex strokehex1" ></div>
+        <div class="colorhex color1" ></div>
+        <div class="colorhex color1" ></div>
+        <div class="strokehex strokehex3" ></div>
+        <div class="invisiblehex"></div>
+        <div class="invisiblehex"></div>
+        <div class="invisiblehex"></div>
+        <div class="colorhex color3" ></div>
+        <div class="strokehex strokehex3" ></div>
+        <div class="colorhex color3" ></div>
+        <div class="colorhex color3" ></div>
+      </div>
+    </div>
+
+
+
+    <button id="fullscreenBtn"> </button>
+    
+    <div class="image-box">
+        <img id="img-box" src="Image.jfif" alt="Centered Image" />
+    </div>
+    <div class="titletext" id="TitleBox">Portal Mockup</div>
+    <div class="titletext" id="AuthorBox">Anonymous</div>
+    
+  </div>
+
+  <script>
+    const btn = document.getElementById('fullscreenBtn');
+    const viewport = document.getElementById('viewport');
+
+    const typesofbadges = ["3D", "Cricut", "Fabric", "Button", "Laser", "Carvey", "Electronics"]
+    const hexcolors = ["rgba(255, 106, 0, 0.8)", "rgba(0, 255, 183, 0.8)", "rgba(224, 146, 255, 0.8)", "rgba(255, 85, 167, 0.8)", "rgba(7, 255, 53, 0.8)", "rgba(51, 211, 255, 0.8)", "rgba(255, 99, 101, 0.8)"]
+    const strokefiles = ["PolygonOrange.png", "PolygonTeal.png", "PolygonPurple.png", "PolygonPink.png", "PolygonGreen.png", "PolygonBlue.png", "PolygonRed.png"]
+    const heximages = ["3dhex.png", "cricuthex.png", "fabrichex.png", "buttonhex.png", "laserhex.png", "carveyhex.png", "electronicshex.png"]
+
+    let bgimageurl = "url('BaseImages/Badges/"
+    let stkimageurl = "url('BaseImages/StrokeHexs/"
+
+    function badgeconvert(x){
+      if (x === "3D"){return 0}
+      if (x === "Cricut"){return 1}
+      if (x === "Fabric"){return 2}
+      if (x === "Button"){return 3}
+      if (x === "Laser"){return 4}
+      if (x === "Carvey"){return 5}
+      if (x === "Electronics"){return 6}
+    }
+
+    function changeColor(arr, index){
+      for(let i = 0; i<arr.length; i++){
+        arr[i].style.backgroundColor = hexcolors[index]
+      }
+    }
+
+    function changeImg(badge, index){
+      badge.style.backgroundImage = bgimageurl + heximages[index] + "')"
+      badge.style.backgroundColor = "rgba(0, 0, 0, 0);"
+    }
+
+    function changeStroke(arr, index){
+      for(let i = 0; i<arr.length; i++){
+        arr[i].style.backgroundImage = stkimageurl + strokefiles[index] + "')"
+      }
+    }
+
+    var badge1 = document.getElementById('badgehex1');
+    badge1.style.backgroundImage = "url('BaseImages/Badges/3Dhex.png')"
+    
+
+    // var badge2 = document.getElementById('badgehex2');
+    // badge2.style.backgroundImage = "url('3dhex.png')"
+
+    // var badges = document.getElementsByClassName("badgehex")
+    // for (let i =0; i<badges.length; i++){
+    //   badges[i].style.backgroundImage = "url('3dhex.png')"
+    // }
+
+    btn.addEventListener('click', () => {
+      if (!document.fullscreenElement) {
+        viewport.requestFullscreen().catch(err => {
+          alert(`Error attempting to enable fullscreen mode: ${err.message}`);
+        });
+      } else {
+        document.exitFullscreen();
+      }
+    });
+
+    var folderindex = 0;
+    let intervalid;
+    // var folderlens = 1; 
+
+
+    function updateBG(json, projecturl){
+      let imgbox = document.getElementById("img-box");
+      imgbox.src = "./Projects/" + projecturl + "/" + json.ImageFile;
+      document.getElementById("TitleBox").innerText = json.Title;
+      document.getElementById("AuthorBox").innerText = json.Author;
+      let badges = json.Badges;
+      if(json.Badges.length >= 1){
+        let bdg1 = badgeconvert(json.Badges[0]);
+        
+
+        let bdghexes = document.getElementsByClassName("badgehex");
+        changeColor(bdghexes, bdg1);
+        for(let i = 0; i<bdghexes.length; i++){
+          bdghexes[i].style.backgroundImage = "";
+        }
+
+        changeImg(document.getElementById("badgehex1"), bdg1)
+
+        let stkhexes = document.getElementsByClassName("strokehex")
+        changeStroke(stkhexes, bdg1);
+
+        let resthexes = document.getElementsByClassName("colorhex");
+        changeColor(resthexes, bdg1)
+      }
+
+      if(json.Badges.length >= 2){
+        console.log(json.Badges[1])
+        let bdg = badgeconvert(json.Badges[1]);
+        changeImg(document.getElementById("badgehex2"), bdg)
+
+        let stkhexes = document.getElementsByClassName("strokehex2")
+        changeStroke(stkhexes, bdg);
+
+        let resthexes = document.getElementsByClassName("color2");
+        changeColor(resthexes, bdg)
+      }
+
+      if(json.Badges.length >= 3){
+        console.log(json.Badges[2])
+        let bdg = badgeconvert(json.Badges[2]);
+        changeImg(document.getElementById("badgehex3"), bdg)
+
+        let stkhexes = document.getElementsByClassName("strokehex3")
+        changeStroke(stkhexes, bdg);
+
+        let resthexes = document.getElementsByClassName("color3");
+        changeColor(resthexes, bdg)
+      }
+
+      if(json.Badges.length >= 4){
+        console.log(json.Badges[3])
+        let bdg = badgeconvert(json.Badges[3]);
+        changeImg(document.getElementById("badgehex4"), bdg)
+
+        let stkhexes = document.getElementsByClassName("strokehex4")
+        changeStroke(stkhexes, bdg);
+
+        let resthexes = document.getElementsByClassName("color4");
+        changeColor(resthexes, bdg)
+      }
+      document.getElementById("hidebox").classList.toggle("fade")
+    }
+
+    function changeBG(folders) {
+      folderindex = folderindex + 1
+      if (folderindex >= folders.length) {
+        folderindex = 0;
+      }
+      let projecturl = folders[folderindex];
+
+      fetch('./Projects/' + projecturl + "/info.json")
+        .then((response) => response.json())
+        .then((json) => {
+
+
+          document.getElementById("hidebox").classList.toggle("fade");
+          setTimeout(updateBG, 250, json, projecturl);
+          
+          
+        });
+
+      
+      
+
+    }
+
+
+    fetch('./data.json')
+      .then((response) => response.json())
+      .then((json) => {
+        intervalid ??= setInterval(changeBG, 15000, json.folders)
+      });
+
+  </script>
+</body>
+</html>
