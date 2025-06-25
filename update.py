@@ -4,6 +4,8 @@ import json
 from datetime import datetime
 
 header = []
+added = []
+
 
 with open('NewEntries.csv', newline="") as csvfile:
     re = csv.reader(csvfile)
@@ -35,7 +37,7 @@ with open('NewEntries.csv', newline="") as csvfile:
         data = {}
         with open("data.json", "r") as file:
             data = json.load(file)
-            print(data)
+            # print(data)
             if row[3] not in data["folders"]:
                 data["folders"].append(row[3])
 
@@ -43,15 +45,22 @@ with open('NewEntries.csv', newline="") as csvfile:
             json.dump(data, file, ensure_ascii=False)
 
         os.rename(row[2], mypath+"/"+row[2])
+        added.append(row[3])
 
-        print(res)
+        # print(res)
+print("Added {0}: ".format(len(added)), end="")
+for name in added:
+    print(name, end=", ")
+print("")
 
-todaystr = datetime.today().strftime('%Y-%m-%d')
-os.rename("NewEntries.csv", "Archive/Entered-"+todaystr+".csv")
+if(len(added)>0):
+    todaystr = datetime.today().strftime('%Y-%m-%d')
+    os.rename("NewEntries.csv", "Archive/Entered-"+todaystr+".csv")
 
-with open('NewEntries.csv', "w") as csvfile:
-    writer = csv.DictWriter(csvfile, fieldnames=header)
-    writer.writeheader()
+    with open('NewEntries.csv', "w") as csvfile:
+        writer = csv.DictWriter(csvfile, fieldnames=header)
+        writer.writeheader()
 
 
-print(datetime.today().strftime('%Y-%m-%d'))
+
+# print(datetime.today().strftime('%Y-%m-%d'))
