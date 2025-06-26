@@ -220,10 +220,10 @@
     <button id="fullscreenBtn"> </button>
     
     <div class="image-box">
-        <img id="img-box" src="Image.jfif" alt="Centered Image" />
+        <img id="img-box" src="Projects\start\start.jpg" alt="Centered Image" />
     </div>
-    <div class="titletext" id="TitleBox">Portal Mockup</div>
-    <div class="titletext" id="AuthorBox">Anonymous</div>
+    <div class="titletext" id="TitleBox">LabNext Show and Tell</div>
+    <div class="titletext" id="AuthorBox"></div>
     
   </div>
 
@@ -293,7 +293,7 @@
     // var folderlens = 1; 
 
 
-    function updateBG(json, projecturl){
+    function updateBG(json, projecturl){  
       let imgbox = document.getElementById("img-box");
       imgbox.src = "./Projects/" + projecturl + "/" + json.ImageFile;
       document.getElementById("TitleBox").innerText = json.Title;
@@ -379,6 +379,15 @@
 
     }
 
+    let starter = {
+      "ImageFile": "start.jpg",
+      "Title": "LabNext Show and Tell",
+      "Author": "",
+      "Badges": ["3D", "Cricut", "Fabric", "Carvey"]
+    }
+
+    document.getElementById("hidebox").classList.toggle("fade")
+    updateBG(starter, "start")
 
     fetch('./data.json')
       .then((response) => response.json())
