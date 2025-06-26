@@ -8,5 +8,6 @@ Next, you'll need to have Python 3 installed (https://www.python.org/downloads/)
 To add an entry, open up NewEntries.csv (Excel is the easiest for this). The file should be a mostly blank with only the following headers:
 
 | Project Title | Author | Image File | Tool Badge 1 | Tool Badge 2 | Tool Badge 3 | Tool Badge 4 |
+| ----- | ----- | ----- | ----- | ----- | ----- | ----- |
 
 
