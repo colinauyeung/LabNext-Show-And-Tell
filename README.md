@@ -6,6 +6,8 @@ An HTML slideshow to show off some of the creation made by the people at LabNext
 ## Updating
 To update the slideshow with new entries, we first need to clone and pull this repo (do this however is the most comfortable for you, I recommend Github Desktop personally, see photo for how to clone this with Desktop).
 
+![alt text](./README/GitDesktop.PNG "Logo Title Text 1")
+
 Next, you'll need to have Python 3 installed (https://www.python.org/downloads/). Any recent version of Python 3 should be fine, but for context, the project was built using 3.15.5.
 
 ### Adding Entries
