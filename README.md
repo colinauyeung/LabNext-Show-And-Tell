@@ -28,7 +28,7 @@ However the author wants to be identified. (I use Anonymous if they don't want t
 #### Image File
 This should be the name of the image file that corrosponds to this slide, e.g. ```image.png```. **Make sure that this file exists in the root of the project**
 #### Folder name
-This should be a valid folder for the data for this slide to live in, e.g. "project-by-anon".
+This should be a valid folder name for the data for this slide to live in, e.g. "project-by-anon".
 
 #### Tool Badge 1-4: 
 These are the tools that the author of the project indicated they used for it. The options are: 
@@ -36,7 +36,7 @@ These are the tools that the author of the project indicated they used for it. T
 | 3D | Cricut | Fabric | Button | Laser | Carvey | Electronics |
 | ----- | ----- | ----- | ----- | ----- | ----- | ----- |
 
-Each column should only have one of the options in it. The first column, *"Tool Badge 1"*, must have an entry and it should be the primary tool that they used in the project. The rest may be filled or be empty. **These entries are case and spelling senstive**
+Each column should only have one of the options in it. The first column, *"Tool Badge 1"*, must have an entry and it should be the primary tool that they used in the project. The rest may be filled or be empty. **These entries are case and spelling sensitive**
 
 #### Example: 
 
@@ -56,3 +56,47 @@ This command should generate the new project folders, generate and update the ne
 ### Deploying
 
 To deploy the changes to the website, simply push the changes to the ```main``` branch. You'll need to wait a few minutes for the changes to propagate Github's servers. 
+## Deleting a Slide
+
+If you need to remove a slide from the slideshow for any reason, you can use the following script:
+
+```bash
+python delete.py folder-name
+```
+Where folder-name is the folder name of the project you want to delete. All the projects live in the ```Project``` folder like so:
+
+```bash
+LabNext-Show-And-Tell
+└── Projects
+    ├── project-1
+    │   ├── image.png
+    │   └── info.json
+    ├── project-2
+    |   ├── info.json
+    |   └── image.png
+    └── start
+        └── start.jpg
+```
+So if you wanted to delete ```project-1``` it would be:
+```bash
+python delete.py project-1
+```
+Don't touch ```start``` as that's folder for the starting slide. 
+
+Deleted project folders are moved into:
+```bash
+LabNext-Show-And-Tell
+└── Archive
+    └── Deleted-Projects
+```
+To propagate the deletion, just push the update to the ```main``` branch. 
+## Run Locally
+
+If you want to run this slideshow locally with no internet, you'll first need to clone and pull the project. Then just run the following command and follow the link displayed on the command line. 
+
+```python ./local_boot.py```
+
+This will run the update script and then start up a local python server through http.server. The site needs a local server to display correctly since we use json files to manage the various slides. **This does need admin permissions to run** 
+## Troubleshooting
+
+- If the site isn't displaying correctly (misaligned hexagons or the slides not switching), check the browser version. The site relies on some newer html/js standards. Notably I had issues with Chromium versions from 2017. I think anything updated post-2020 should probably be fine. 
