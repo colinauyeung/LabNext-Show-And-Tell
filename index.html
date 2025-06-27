@@ -184,8 +184,13 @@
 <body>
   <div id="viewport">
 
+    <!-- This is a black box that is used for the fade to black transition -->
     <div id="hidebox" class="fade"></div>
+
+    <!-- This is the white fade at the edge of the image -->
     <div id="gradient-box"></div>
+
+    <!-- This grid for the hexagons -->
     <div class="main">
       <div class="container">
         <div class="colorhex color2"></div>
@@ -216,9 +221,10 @@
     </div>
 
 
-
+    <!-- This is the button that turns the screen full screen -->
     <button id="fullscreenBtn"> </button>
     
+    <!-- Main parts of the slide: image, title and author -->
     <div class="image-box">
         <img id="img-box" src="Projects\start\start.jpg" alt="Centered Image" />
     </div>
@@ -231,6 +237,8 @@
     const btn = document.getElementById('fullscreenBtn');
     const viewport = document.getElementById('viewport');
 
+    // These define the name, color, image files for each type of badge. The indices of these should line up. E.g. typesofbadges[0] is "3D" which corrosponds to
+    // to hexcolors[0] which is the corrosponding orange.
     const typesofbadges = ["3D", "Cricut", "Fabric", "Button", "Laser", "Carvey", "Electronics"]
     const hexcolors = ["rgba(255, 106, 0, 0.8)", "rgba(0, 255, 183, 0.8)", "rgba(224, 146, 255, 0.8)", "rgba(255, 85, 167, 0.8)", "rgba(7, 255, 53, 0.8)", "rgba(51, 211, 255, 0.8)", "rgba(255, 99, 101, 0.8)"]
     const strokefiles = ["PolygonOrange.png", "PolygonTeal.png", "PolygonPurple.png", "PolygonPink.png", "PolygonGreen.png", "PolygonBlue.png", "PolygonRed.png"]
@@ -239,6 +247,7 @@
     let bgimageurl = "url('BaseImages/Badges/"
     let stkimageurl = "url('BaseImages/StrokeHexs/"
 
+    // This converts the text forms of badges into indices into the various lists we need
     function badgeconvert(x){
       if (x === "3D"){return 0}
       if (x === "Cricut"){return 1}
@@ -249,35 +258,27 @@
       if (x === "Electronics"){return 6}
     }
 
+    // This changes the color of an array selection of hexes based on an indice from badgeconvert
     function changeColor(arr, index){
       for(let i = 0; i<arr.length; i++){
         arr[i].style.backgroundColor = hexcolors[index]
       }
     }
 
+    // Changes the image for a hex
     function changeImg(badge, index){
       badge.style.backgroundImage = bgimageurl + heximages[index] + "')"
       badge.style.backgroundColor = "rgba(0, 0, 0, 0);"
     }
 
+    // Stroke hexes are the hex with an empty center. This changes the color for an array selection of these based on an indice from badgeconvert
     function changeStroke(arr, index){
       for(let i = 0; i<arr.length; i++){
         arr[i].style.backgroundImage = stkimageurl + strokefiles[index] + "')"
       }
     }
-
-    var badge1 = document.getElementById('badgehex1');
-    badge1.style.backgroundImage = "url('BaseImages/Badges/3Dhex.png')"
     
-
-    // var badge2 = document.getElementById('badgehex2');
-    // badge2.style.backgroundImage = "url('3dhex.png')"
-
-    // var badges = document.getElementsByClassName("badgehex")
-    // for (let i =0; i<badges.length; i++){
-    //   badges[i].style.backgroundImage = "url('3dhex.png')"
-    // }
-
+    // This is the code to make the full screen button work
     btn.addEventListener('click', () => {
       if (!document.fullscreenElement) {
         viewport.requestFullscreen().catch(err => {
@@ -288,29 +289,50 @@
       }
     });
 
+    // controls which slide we're looking at
     var folderindex = 0;
-    let intervalid;
-    // var folderlens = 1; 
 
+    //interval id
+    let intervalid;
+
+    // This is the main function that updates the slideshow with a new slide
+    // Input:
+    //       json: the data from info.json from a project folder
+    //       projecturl: the path to the project folder
+    // Effect: 
+    //       Updates the slide to the contents of a project folder
 
     function updateBG(json, projecturl){  
+      //update the image
       let imgbox = document.getElementById("img-box");
       imgbox.src = "./Projects/" + projecturl + "/" + json.ImageFile;
+
+      //update the title and author boxes
       document.getElementById("TitleBox").innerText = json.Title;
       document.getElementById("AuthorBox").innerText = json.Author;
-      let badges = json.Badges;
-      if(json.Badges.length >= 1){
-        let bdg1 = badgeconvert(json.Badges[0]);
-        
 
+      //now we need to update the badges
+      let badges = json.Badges;
+
+      //Update based on the first badge
+      if(json.Badges.length >= 1){
+
+        //Get the indice based on the badge string
+        let bdg1 = badgeconvert(json.Badges[0]);
+
+        // For the firest one, we're going to turn off all of the other badge hexes and change their color to match the first badge
+        // We'll overwrite this as we get to the later badges
         let bdghexes = document.getElementsByClassName("badgehex");
         changeColor(bdghexes, bdg1);
         for(let i = 0; i<bdghexes.length; i++){
           bdghexes[i].style.backgroundImage = "";
         }
 
+        //Update the image for the badge hex
         changeImg(document.getElementById("badgehex1"), bdg1)
 
+        //change the color of all hexes to match the first badge
+        //again we'll overwrite this later
         let stkhexes = document.getElementsByClassName("strokehex")
         changeStroke(stkhexes, bdg1);
 
@@ -318,6 +340,7 @@
         changeColor(resthexes, bdg1)
       }
 
+      //Now for badges 2-4, we'll just change the corrosponding badge hex and other hexes to the create images and colors
       if(json.Badges.length >= 2){
         console.log(json.Badges[1])
         let bdg = badgeconvert(json.Badges[1]);
@@ -353,22 +376,32 @@
         let resthexes = document.getElementsByClassName("color4");
         changeColor(resthexes, bdg)
       }
+
+      //This makes the transition work
       document.getElementById("hidebox").classList.toggle("fade")
     }
 
+    //Input:
+    //      folders: the list of project folders from data.json
+    //Effect:
+    //      Controls the transition between slides
     function changeBG(folders) {
+      //step through the project folders one by one as this function is called
       folderindex = folderindex + 1
       if (folderindex >= folders.length) {
         folderindex = 0;
       }
       let projecturl = folders[folderindex];
 
+      //Get the info.json for the next project folder to be displayed
       fetch('./Projects/' + projecturl + "/info.json")
         .then((response) => response.json())
         .then((json) => {
 
-
+          // set up the fade to black
           document.getElementById("hidebox").classList.toggle("fade");
+
+          //wait for the fade to happen and then change to the next project folder
           setTimeout(updateBG, 250, json, projecturl);
           
           
@@ -379,6 +412,7 @@
 
     }
 
+    //This shows the first slide before the projects start
     let starter = {
       "ImageFile": "start.jpg",
       "Title": "LabNext Show and Tell",
@@ -389,6 +423,7 @@
     document.getElementById("hidebox").classList.toggle("fade")
     updateBG(starter, "start")
 
+    // Set up the site so that it changes slides every X milliseconds
     fetch('./data.json')
       .then((response) => response.json())
       .then((json) => {
