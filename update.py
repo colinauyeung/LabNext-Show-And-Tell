@@ -81,5 +81,3 @@ if(len(added)>0):
         writer.writeheader()
 
 
-
-# print(datetime.today().strftime('%Y-%m-%d'))
