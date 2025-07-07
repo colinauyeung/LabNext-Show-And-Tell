@@ -18,6 +18,10 @@ with open('NewEntries.csv', newline="") as csvfile:
             header = row
             continue
 
+        if(len(row) <= 1):
+            break
+        
+
         # Grab all the badges
         badges = [row[4]]
         for i in range(5,8):

@@ -9,6 +9,6 @@ Handler = http.server.SimpleHTTPRequestHandler
 
 with socketserver.TCPServer(("", PORT), Handler) as httpd:
     print("serving at port", PORT)
+    print("Browser at http://localhost:8000")
     httpd.serve_forever()
 
-print("Browser at http://localhost:8000")
